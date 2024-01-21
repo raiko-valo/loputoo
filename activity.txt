@@ -1,0 +1,6 @@
+04.01 2h
+https://github.com/yannbouteiller/vgamepad
+https://github.com/nefarius/ViGEmBus/releases/tag/v1.22.0
+
+21.01
+created repo, setup raspberry pi
