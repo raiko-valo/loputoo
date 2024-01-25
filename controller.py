@@ -6,63 +6,83 @@ import json
 
 def input_thread(socket_connection):
 
-    last_data_p1 = ""
-    last_data_p2 = ""
+    last_data_p1 = "P1 100 100 100 0-"
+    last_data_p2 = "P2 100 100 100 0-"
     
     while True:
 
         # Initialize player data
-        key_pressed_p1 = list('0000000000')
-        key_pressed_p2 = list('0000000000')
+        key_pressed_p1 = "P1"
+        key_pressed_p2 = "P2"
 
         # Player 1 controls
-        if keyboard.is_pressed('a'):  # Left
-            key_pressed_p1[0] = '1'
-        if keyboard.is_pressed('w'):  # Up
-            key_pressed_p1[1] = '1'
-        if keyboard.is_pressed('s'):  # Down
-            key_pressed_p1[2] = '1'
-        if keyboard.is_pressed('d'):  # Right
-            key_pressed_p1[3] = '1'
-        if keyboard.is_pressed('q'):  # dpad up
-            key_pressed_p1[4] = '1'
-        if keyboard.is_pressed('e'):  # dpad down
-            key_pressed_p1[5] = '1'
+        if keyboard.is_pressed('a') and not keyboard.is_pressed('d'):  # Left
+            key_pressed_p1 += " 0"
+        elif keyboard.is_pressed('d') and not keyboard.is_pressed('a'): # Right
+            key_pressed_p1 += " 200"
+        else:
+            key_pressed_p1 += " 100"
+        
+        if keyboard.is_pressed('w') and not keyboard.is_pressed('s'):  # Up
+            key_pressed_p1 += " 200"
+        elif keyboard.is_pressed('s') and not keyboard.is_pressed('w'):  # Down
+            key_pressed_p1 += " 0"
+        else:
+            key_pressed_p1 += " 100"
+
+        if keyboard.is_pressed('x') and not keyboard.is_pressed('c'):  # Up
+            key_pressed_p1 += " 200"
+        elif keyboard.is_pressed('c') and not keyboard.is_pressed('x'):  # Down
+            key_pressed_p1 += " 0"
+        else:
+            key_pressed_p1 += " 100"
+        
         if keyboard.is_pressed('z'):  # a
-            key_pressed_p1[6] = '1'
-        if keyboard.is_pressed('x'):  # b
-            key_pressed_p1[7] = '1'
+            key_pressed_p1 += " 1-"
+        else:
+            key_pressed_p1 += " 0-"
 
         # Player 2 controls
-        if keyboard.is_pressed('j'):  # Left
-            key_pressed_p2[0] = '1'
-        if keyboard.is_pressed('i'):  # Up
-            key_pressed_p2[1] = '1'
-        if keyboard.is_pressed('k'):  # Down
-            key_pressed_p2[2] = '1'
-        if keyboard.is_pressed('l'):  # Right
-            key_pressed_p2[3] = '1'
-        if keyboard.is_pressed('u'):  # dpad up
-            key_pressed_p2[4] = '1'
-        if keyboard.is_pressed('o'):  # dpad down
-            key_pressed_p2[5] = '1'
-        if keyboard.is_pressed('n'):  # a
-            key_pressed_p2[6] = '1'
-        if keyboard.is_pressed('m'):  # b
-            key_pressed_p2[7] = '1'
+        if keyboard.is_pressed('j') and not keyboard.is_pressed('l'):  # Left
+            key_pressed_p2 += " 0"
+        elif keyboard.is_pressed('l') and not keyboard.is_pressed('j'): # Right
+            key_pressed_p2 += " 200"
+        else:
+            key_pressed_p2 += " 100"
+        
+        if keyboard.is_pressed('i') and not keyboard.is_pressed('k'):  # Up
+            key_pressed_p2 += " 200"
+        elif keyboard.is_pressed('k') and not keyboard.is_pressed('i'):  # Down
+            key_pressed_p2 += " 0"
+        else:
+            key_pressed_p2 += " 100"
+
+        if keyboard.is_pressed('n') and not keyboard.is_pressed('m'):  # Up
+            key_pressed_p2 += " 200"
+        elif keyboard.is_pressed('m') and not keyboard.is_pressed('n'):  # Down
+            key_pressed_p2 += " 0"
+        else:
+            key_pressed_p2 += " 100"
+        
+        if keyboard.is_pressed(','):  # a
+            key_pressed_p2 += " 1-"
+        else:
+            key_pressed_p2 += " 0-"
+
         data_p1 = "".join(key_pressed_p1)
         data_p2 = "".join(key_pressed_p2)
 
-        if data_p1 != last_data_p1 or data_p2 != last_data_p2:
-            output = data_p1 + "-" + data_p2
-            print(output)
-            socket_connection.send(output.encode())
+        if data_p1 != last_data_p1:
+            socket_connection.send(data_p1.encode())
             last_data_p1 = data_p1
+
+        if data_p2 != last_data_p2:
+            socket_connection.send(data_p2.encode())
             last_data_p2 = data_p2
 
 def main():
     # Set up the socket connection
-    host = '127.0.0.1'  # Replace with the IP address of the receiver
+    host = '192.168.60.141'  # Replace with the IP address of the receiver
     port = 12345
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
