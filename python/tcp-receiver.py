@@ -6,6 +6,7 @@ import math
 import threading
 gamepad_p1 = None
 gamepad_p2 = None
+
 def get_stick_value(stickValue):
     if stickValue == 0 or stickValue == -0:
         return stickValue
@@ -53,7 +54,7 @@ def handle_client(conn, addr):
                 
                 gamepad_data = received_bytes.decode()
 
-                for input in gamepad_data.split("-"):
+                for input in gamepad_data.split(";"):
                     if not input == "":
                         user = input.split(" ")[0]
 
@@ -83,17 +84,14 @@ def handle_client(conn, addr):
 
 def main():
     host = '0.0.0.0'
-    port = 12345
+    port = 12346
 
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((host, port))
             s.listen()
 
-            print(f"Waiting for connection on {host}:{port}")
-
-            gamepad_p1 = None
-            
+            print(f"Waiting for connection on {host}:{port}")            
 
             while True:
                 conn, addr = s.accept()

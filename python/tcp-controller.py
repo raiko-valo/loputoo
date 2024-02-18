@@ -6,8 +6,8 @@ import json
 
 def input_thread(socket_connection):
 
-    last_data_p1 = "P1 100 100 100 0-"
-    last_data_p2 = "P2 100 100 100 0-"
+    last_data_p1 = "P1 100 100 100 0;"
+    last_data_p2 = "P2 100 100 100 0;"
     
     while True:
 
@@ -38,9 +38,9 @@ def input_thread(socket_connection):
             key_pressed_p1 += " 100"
         
         if keyboard.is_pressed('z'):  # a
-            key_pressed_p1 += " 1-"
+            key_pressed_p1 += " 1;"
         else:
-            key_pressed_p1 += " 0-"
+            key_pressed_p1 += " 0;"
 
         # Player 2 controls
         if keyboard.is_pressed('j') and not keyboard.is_pressed('l'):  # Left
@@ -65,9 +65,9 @@ def input_thread(socket_connection):
             key_pressed_p2 += " 100"
         
         if keyboard.is_pressed(','):  # a
-            key_pressed_p2 += " 1-"
+            key_pressed_p2 += " 1;"
         else:
-            key_pressed_p2 += " 0-"
+            key_pressed_p2 += " 0;"
 
         data_p1 = "".join(key_pressed_p1)
         data_p2 = "".join(key_pressed_p2)
