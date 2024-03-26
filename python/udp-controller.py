@@ -1,8 +1,11 @@
 import socket
 import keyboard
 
+import time
+
 # HOST = '192.168.3.26'
-HOST = '192.168.60.141'  # localhost
+# HOST = '192.168.60.141'  # localhost
+HOST = '127.0.0.1'
 PORT = 12345  # Arbitrary non-privileged port
 
 def send_data(host, port, message):
@@ -77,6 +80,10 @@ def handle_controls():
         if keyboard.is_pressed('e'):
             send_data(HOST, PORT, 'exit')
             break
+
+        if keyboard.is_pressed('t'):
+            send_time = "TEST " + time.time()
+            send_data(HOST, PORT, "TEST ")
 
         data_p1 = "".join(key_pressed_p1)
         data_p2 = "".join(key_pressed_p2)

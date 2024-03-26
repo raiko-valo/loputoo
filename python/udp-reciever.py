@@ -5,6 +5,8 @@ import keyboard
 import math
 import threading
 
+import time
+
 gamepad_p1 = None
 gamepad_p2 = None
 def get_stick_value(stickValue):
@@ -63,13 +65,16 @@ def start_server(host, port):
                 if user == "P1":
                     if gamepad_p1 == None:
                         gamepad_p1 = vg.VX360Gamepad()
-
                     data_p1 = input
                 elif user == "P2":
                     if gamepad_p2 == None:
-                        gamepad_p2 = vg.VX360Gamepad()
-                        
+                        gamepad_p2 = vg.VX360Gamepad()                        
                     data_p2 = input
+                elif user == "TEST":
+                    recieve_time = time.time()
+                    send_time = input.split(" ")[1]
+                    print("latency")
+                    print(recieve_time-send_time)
 
                 if old_data_p1 != data_p1:
                     gamepad_controller(gamepad_p1, data_p1)
